@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 using Pract_6_Demin.Models;
 
@@ -12,12 +14,67 @@ namespace Pract_6_Demin.Service
 
         static public void GetAllMovies()
         {
+
             Mov.Clear();
 
             foreach(var m in _db.Movies)
             {
                 Mov.Add(m);
             }
+        }
+
+        static public Movie Get(int id)
+        {
+            var movie = _db.Movies.FirstOrDefault(item => item.Id == id);
+
+            if (movie == null)
+                return null;
+
+            return movie;
+        }
+
+        static public List<Movie> GetWithQuery(string? genre, int? minYear)
+        {
+            List<Movie> movies = _db.Movies.ToList();
+
+            List<Movie> TrueMovies=new();
+
+            if (genre != null && minYear != null)
+            {
+                foreach(var movie in movies)
+                {
+                    if (movie.Genre == genre && movie.ReleaseYear >= minYear)
+                    {
+                        TrueMovies.Add(movie);
+                    }
+                }
+            }
+            if (genre == null && minYear != null)
+            {
+                foreach (var movie in movies)
+                {
+                    if (movie.ReleaseYear >= minYear)
+                    {
+                        TrueMovies.Add(movie);
+                    }
+                }
+            }
+            if (genre != null && minYear == null)
+            {
+                foreach (var movie in movies)
+                {
+                    if (movie.Genre == genre)
+                    {
+                        TrueMovies.Add(movie);
+                    }
+                }
+            }
+
+            if (genre == null && minYear == null)
+                return movies;
+
+            return TrueMovies;
+
         }
 
         static public bool Add(Movie M)
@@ -40,26 +97,59 @@ namespace Pract_6_Demin.Service
             _db.Movies.Add(M);
             _db.SaveChanges();
 
-            return Mov[M.Id-1].Id != 0;
+            return true;
+        }
+
+        static public bool Add(List<Movie> movie)
+        {
+            try
+            {
+                foreach (var M in movie)
+                {
+                    if (M.Title.IsNullOrEmpty())
+                        return false;
+                    if (M.Genre.IsNullOrEmpty())
+                        return false;
+                    if (M.DurationMinutes == 0)
+                        return false;
+                    if (M.ReleaseYear <= 0)
+                        return false;
+                    M.Id = Mov.Count + 1;
+
+
+                    Mov.Add(M);
+
+                    M.Id = 0;
+                    _db.Movies.Add(M);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+
+            _db.SaveChanges();
+
+            return true;
         }
 
         static public bool Change(int id,Movie movie)
         {
-            if (id > Mov.Count())
+            var movie1 = _db.Movies.FirstOrDefault(item=>item.Id==id);
+
+            if (movie1 == null)
                 return false;
+
             if (movie.Title.IsNullOrEmpty())
                 return false;
             if (movie.Genre.IsNullOrEmpty())
                 return false;
-            if (movie.DurationMinutes == 0)
+            if (movie.DurationMinutes <= 0)
                 return false;
             if (movie.ReleaseYear <= 0)
                 return false;
-            if (movie.Id != id)
-                return false;
 
 
-            var movie1 = _db.Movies.FirstOrDefault(item=>item.Id==id);
 
             if (movie1 == null)
                 return false;
@@ -70,8 +160,6 @@ namespace Pract_6_Demin.Service
             movie1.ReleaseYear = movie.ReleaseYear;
             movie1.IsAvailable = movie.IsAvailable;
 
-
-            Mov[id-1] = movie;
 
             _db.SaveChanges();
 
@@ -85,9 +173,13 @@ namespace Pract_6_Demin.Service
         {
             try
             {
-                _db.Movies.RemoveRange(Mov[id - 1]);
+                var movie1 = _db.Movies.FirstOrDefault(item => item.Id == id);
+
+                if (movie1 == null)
+                    return false;
+
+                _db.Movies.RemoveRange(movie1);
                 _db.SaveChanges();
-                Mov.Remove(Mov[id - 1]);
 
                 return true;
             }
@@ -100,11 +192,28 @@ namespace Pract_6_Demin.Service
 
         static public bool ChangeS(int id,FMovie movie)
         {
-            _db.Movies.FirstOrDefault(item => item.Id == id);
+            var movie1 = _db.Movies.FirstOrDefault(item => item.Id == id);
+            if (movie1 == null)
+                return false;
 
+            if (movie.Title != null)
+                movie1.Title = movie.Title;
 
+            if (movie.Genre != null)
+                movie1.Genre = movie.Genre;
 
-            return false;
+            if (movie.DurationMinutes != null)
+                movie1.DurationMinutes = (int)movie.DurationMinutes;
+
+            if (movie.ReleaseYear != null)
+                movie1.ReleaseYear = (int)movie.ReleaseYear;
+
+            if (movie.IsAvailable != null)
+                movie1.IsAvailable = (bool)movie.IsAvailable;
+
+            _db.SaveChanges();
+
+            return true;
         }
     }
 }

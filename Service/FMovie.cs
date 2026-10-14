@@ -6,10 +6,10 @@
 
         public string? Genre { get; set; } = null!;
 
-        public string? DurationMinutes { get; set; } = null;
+        public int? DurationMinutes { get; set; } = null;
 
         public int? ReleaseYear { get; set; } = null;
 
-        public string? IsAvailable { get; set; } = null;
+        public bool? IsAvailable { get; set; } = null;
     }
 }

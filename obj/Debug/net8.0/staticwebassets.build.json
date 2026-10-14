@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "1KH407Je3+6X+iiQDZsW5cKGCQIxL5GzCnaXFO6gu4Q=",
-  "Source": "Pract_6_Demin",
-  "BasePath": "_content/Pract_6_Demin",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"P69N3zWSq8jMCn9M6TbigGAGulxP3zc+cq4wU2gxz+8=","Source":"Pract_6_Demin","BasePath":"_content/Pract_6_Demin","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

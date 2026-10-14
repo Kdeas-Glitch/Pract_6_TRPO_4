@@ -16,19 +16,48 @@ namespace Pract_6_Demin.Controllers
         
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string? Genre, [FromQuery] int? minYear)
         {
-            MovieService.GetAllMovies();
-            return Ok(MovieService.Mov);
+            try
+            {
+                MovieService.GetAllMovies();
+
+                var movies = MovieService.GetWithQuery(Genre, minYear);
+
+                if(movies.Count>0)
+                    return Ok(movies);
+                else
+                    return NoContent();
+            }
+            catch
+            {
+                return NoContent();
+            }
         }
+
+
 
         [HttpGet("{id:int}")]
-        public IActionResult GetAll(int id)
+        public IActionResult Get(int id)
         {
-            MovieService.GetAllMovies();
+            try
+            {
+                MovieService.GetAllMovies();
 
-            return Ok(MovieService.Mov[id-1]);
+                var m = MovieService.Get(id);
+
+                if(m==null)
+                    return NotFound();
+
+                return Ok(m);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
+
+
 
         [HttpPost]
         public IActionResult Create(Movie movie)
@@ -47,7 +76,7 @@ namespace Pract_6_Demin.Controllers
         }
 
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public IActionResult Put(int id,Movie movie)
         {
             MovieService.GetAllMovies();
@@ -64,17 +93,28 @@ namespace Pract_6_Demin.Controllers
         }
 
 
-        [HttpPatch]
+
+
+        [HttpPatch("{id:int}")]
         public IActionResult Patch(int id,FMovie mov)
         {
-            MovieService.ChangeS(id, mov);
+            MovieService.GetAllMovies();
 
-            return Ok();
+            if (MovieService.ChangeS(id, mov))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
 
+
+
         [HttpDelete("{id:int}")]
-        public IActionResult Delet(int id)
+        public IActionResult Delete(int id)
         {
             MovieService.GetAllMovies();
 
@@ -84,7 +124,7 @@ namespace Pract_6_Demin.Controllers
             }
             else
             {
-                return BadRequest();
+                return NotFound();
             }
 
         }
