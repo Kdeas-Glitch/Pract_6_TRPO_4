@@ -43,7 +43,7 @@ namespace Pract_6_Demin.Service
             {
                 foreach(var movie in movies)
                 {
-                    if (movie.Genre == genre && movie.ReleaseYear >= minYear)
+                    if (movie.Genre.Contains(genre) && movie.ReleaseYear >= minYear)
                     {
                         TrueMovies.Add(movie);
                     }
@@ -63,7 +63,7 @@ namespace Pract_6_Demin.Service
             {
                 foreach (var movie in movies)
                 {
-                    if (movie.Genre == genre)
+                    if (movie.Genre.Contains(genre) )
                     {
                         TrueMovies.Add(movie);
                     }
@@ -201,11 +201,25 @@ namespace Pract_6_Demin.Service
             if (!movie.Genre.IsNullOrEmpty())
                 movie1.Genre = movie.Genre;
 
-            if (movie.DurationMinutes != null&&movie.DurationMinutes>0)
+            if (movie.DurationMinutes != null && movie.DurationMinutes > 0)
+            {
                 movie1.DurationMinutes = (int)movie.DurationMinutes;
+            }
+            else
+            {
+                if(movie.DurationMinutes <= 0)
+                    return false;
+            }
 
-            if (movie.ReleaseYear != null&&movie.ReleaseYear>0)
+            if (movie.ReleaseYear != null && movie.ReleaseYear > 0)
+            {
                 movie1.ReleaseYear = (int)movie.ReleaseYear;
+            }
+            else
+            {
+                if(movie.ReleaseYear <= 0)
+                    return false;
+            }
 
             if (movie.IsAvailable != null)
                 movie1.IsAvailable = (bool)movie.IsAvailable;

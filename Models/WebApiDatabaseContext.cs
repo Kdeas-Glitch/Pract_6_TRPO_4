@@ -66,8 +66,8 @@ public partial class WebApiDatabaseContext : DbContext
     public virtual DbSet<Vacancy> Vacancies { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=sql.ects;Database=WebApiDatabase;User Id=student_00;Password=student_00;TrustServerCertificate=True;");
-        //=> optionsBuilder.UseSqlServer("Server = localhost; Database = WebApiDatabase; Trusted_Connection = True; User Id = student_04; Password = student_04;TrustServerCertificate = True; ");
+        //=> optionsBuilder.UseSqlServer("Server=sql.ects;Database=WebApiDatabase;User Id=student_00;Password=student_00;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server = localhost; Database = WebApiDatabase; Trusted_Connection = True; User Id = student_04; Password = student_04;TrustServerCertificate = True; ");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Apartment>(entity =>
