@@ -87,14 +87,13 @@ namespace Pract_6_Demin.Service
                 return false;
             if (M.ReleaseYear <= 0)
                 return false;
-            M.Id = Mov.Count + 1;
-
-
-            Mov.Add(M);
-
             M.Id = 0;
 
+
+
             _db.Movies.Add(M);
+
+
             _db.SaveChanges();
 
             return true;
@@ -196,16 +195,16 @@ namespace Pract_6_Demin.Service
             if (movie1 == null)
                 return false;
 
-            if (movie.Title != null)
+            if (!movie.Title.IsNullOrEmpty())
                 movie1.Title = movie.Title;
 
-            if (movie.Genre != null)
+            if (!movie.Genre.IsNullOrEmpty())
                 movie1.Genre = movie.Genre;
 
-            if (movie.DurationMinutes != null)
+            if (movie.DurationMinutes != null&&movie.DurationMinutes>0)
                 movie1.DurationMinutes = (int)movie.DurationMinutes;
 
-            if (movie.ReleaseYear != null)
+            if (movie.ReleaseYear != null&&movie.ReleaseYear>0)
                 movie1.ReleaseYear = (int)movie.ReleaseYear;
 
             if (movie.IsAvailable != null)

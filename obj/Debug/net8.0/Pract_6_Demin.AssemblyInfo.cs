@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Pract_6_Demin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+271272d84b65ae2268d03541d149795714dd0235")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3f902c8a799322561b53bddd92d43e00558c26f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Pract_6_Demin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Pract_6_Demin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
